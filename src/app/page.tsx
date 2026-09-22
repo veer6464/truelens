@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Upload, FileText, ImageIcon, RefreshCw, X, AlertCircle, Eye, EyeOff, ShieldCheck, ChevronRight, Plus, Layers, Images, LayoutGrid, Maximize2, ArrowLeft, Video, Film, Clock, Activity, Play } from 'lucide-react';
+import { Upload, FileText, ImageIcon, RefreshCw, X, AlertCircle, Eye, EyeOff, ShieldCheck, ChevronRight, Plus, Layers, Images, LayoutGrid, Maximize2, ArrowLeft, Video, Film, Clock, Activity, Play, Sparkles, Scan, Compass, CheckCircle2 } from 'lucide-react';
 
 interface QueuedImage {
   id: string;
@@ -517,6 +517,100 @@ export default function ScannerPage() {
     }
   };
 
+  // Quick specimen / sample helpers for frictionless testing
+  const handleLoadSampleText = (type: 'ai' | 'human') => {
+    setUploadedFile(null);
+    setError('');
+    if (type === 'ai') {
+      setPastedText(
+        'Artificial intelligence models have advanced substantially in their capacity to generate natural prose. Through recursive attention weights across billions of parameters, these statistical systems emulate cadence and linguistic cohesion without conscious experience. Consequently, discriminating synthetic syntax requires evaluating distributional entropy, token perplexity, and structural burstiness across sentence boundaries.'
+      );
+    } else {
+      setPastedText(
+        'Yesterday morning I caught the early express out toward the coast. The weather was unusually crisp, with an easterly breeze rattling the vintage carriage windows. A dog curled beside the conductor’s boots barely lifted its ears as we rattled past the salt marshes and old stone warehouses that line the estuary.'
+      );
+    }
+  };
+
+  const handleLoadSampleImage = () => {
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 640;
+      canvas.height = 640;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // Dark luxury background
+      const grad = ctx.createLinearGradient(0, 0, 640, 640);
+      grad.addColorStop(0, '#0f172a');
+      grad.addColorStop(0.5, '#1e1b4b');
+      grad.addColorStop(1, '#090d16');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 640, 640);
+
+      // Latent radial glow
+      const radial = ctx.createRadialGradient(320, 300, 30, 320, 300, 280);
+      radial.addColorStop(0, 'rgba(226, 92, 62, 0.65)');
+      radial.addColorStop(0.6, 'rgba(62, 130, 226, 0.3)');
+      radial.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = radial;
+      ctx.fillRect(0, 0, 640, 640);
+
+      // Subtle synthetic grid pattern
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.lineWidth = 1;
+      for (let i = 40; i < 640; i += 40) {
+        ctx.beginPath();
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, 640);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, i);
+        ctx.lineTo(640, i);
+        ctx.stroke();
+      }
+
+      // Specimen label
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 20px serif';
+      ctx.fillText('TrueLens Specimen #0912', 48, 550);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.font = '11px monospace';
+      ctx.fillText('SYNTHETIC DIFFUSION LATENT SPECIMEN', 48, 574);
+
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const file = new File([blob], 'sample_synthetic_specimen.png', { type: 'image/png' });
+          addImageFiles([file]);
+          setError('');
+        }
+      }, 'image/png');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const wordCount = pastedText.trim() ? pastedText.trim().split(/\s+/).length : 0;
+
+  // Keyboard shortcut: Cmd/Ctrl + Enter to trigger analysis
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+        const canAnalyze = !analyzing && !isExtractingFrames && (
+          (activeTab === 'text' && (pastedText.trim().length > 0 || uploadedFile !== null)) ||
+          (activeTab === 'image' && uploadedImages.length > 0) ||
+          (activeTab === 'video' && uploadedVideo !== null)
+        );
+        if (canAnalyze) {
+          e.preventDefault();
+          handleAnalyze();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [analyzing, isExtractingFrames, activeTab, pastedText, uploadedFile, uploadedImages, uploadedVideo]);
+
   return (
     <div className="flex-1 max-w-7xl w-full mx-auto px-6 md:px-12 py-10 flex flex-col lg:flex-row gap-8 lg:gap-12">
       
@@ -525,21 +619,35 @@ export default function ScannerPage() {
         
         {/* Header Summary */}
         <div className="border-b border-border pb-6">
-          <span className="text-[10px] uppercase tracking-widest text-muted font-mono">Authentication Suite</span>
-          <h2 className="font-serif font-black text-3xl tracking-tight mt-1 mb-2">Scan for AI origin</h2>
-          <p className="text-xs text-muted leading-relaxed font-sans max-w-md">
+          <div className="flex items-center space-x-2 mb-2">
+            <span className="inline-flex items-center space-x-1.5 text-[9px] uppercase tracking-[0.2em] text-[#1A1A1A] font-mono font-bold bg-[#1A1A1A]/5 border border-[#1A1A1A]/10 px-2 py-0.5 rounded-xs">
+              <ShieldCheck className="w-3 h-3 text-[#1A1A1A]" />
+              <span>Authentication Suite</span>
+            </span>
+            <span className="text-[9px] text-muted font-mono tracking-wider">• Enterprise Forensics</span>
+          </div>
+          <h2 className="font-serif font-black text-3xl md:text-4xl tracking-tight text-[#1A1A1A] mt-1 mb-2">Scan for AI origin</h2>
+          <p className="text-xs text-muted leading-relaxed font-sans max-w-lg">
             Verify content transparency. Paste text passages, drop documents, or upload photos to inspect for structural generation signatures.
           </p>
+          <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-border/50 text-[10px] font-mono text-muted">
+            <span className="text-[9px] uppercase tracking-wider text-muted/70">Coverage:</span>
+            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">GPT-4o</span>
+            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">Claude 3.5</span>
+            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">Midjourney v6</span>
+            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">Flux.1</span>
+            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">Sora</span>
+          </div>
         </div>
 
         {/* Tab Selector */}
-        <div className="flex space-x-2 border-b border-border pb-2 overflow-x-auto">
+        <div className="flex space-x-1 border-b border-border/80 pb-0 overflow-x-auto">
           <button
             onClick={() => { setActiveTab('text'); setError(''); }}
-            className={`flex items-center space-x-2 pb-2 px-1 font-mono text-xs uppercase tracking-wider relative transition-all duration-150 flex-shrink-0 ${
+            className={`flex items-center space-x-2 py-2.5 px-3.5 font-mono text-xs uppercase tracking-wider transition-all duration-200 flex-shrink-0 border-b-2 -mb-[1px] ${
               activeTab === 'text'
-                ? 'text-foreground font-bold border-b-2 border-foreground'
-                : 'text-muted hover:text-foreground'
+                ? 'text-foreground font-bold border-foreground bg-white/70 shadow-2xs'
+                : 'text-muted hover:text-foreground hover:bg-black/[0.02] border-transparent'
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
@@ -547,10 +655,10 @@ export default function ScannerPage() {
           </button>
           <button
             onClick={() => { setActiveTab('image'); setError(''); }}
-            className={`flex items-center space-x-2 pb-2 px-1 font-mono text-xs uppercase tracking-wider relative transition-all duration-150 flex-shrink-0 ${
+            className={`flex items-center space-x-2 py-2.5 px-3.5 font-mono text-xs uppercase tracking-wider transition-all duration-200 flex-shrink-0 border-b-2 -mb-[1px] ${
               activeTab === 'image'
-                ? 'text-foreground font-bold border-b-2 border-foreground'
-                : 'text-muted hover:text-foreground'
+                ? 'text-foreground font-bold border-foreground bg-white/70 shadow-2xs'
+                : 'text-muted hover:text-foreground hover:bg-black/[0.02] border-transparent'
             }`}
           >
             <ImageIcon className="w-3.5 h-3.5" />
@@ -558,10 +666,10 @@ export default function ScannerPage() {
           </button>
           <button
             onClick={() => { setActiveTab('video'); setError(''); }}
-            className={`flex items-center space-x-2 pb-2 px-1 font-mono text-xs uppercase tracking-wider relative transition-all duration-150 flex-shrink-0 ${
+            className={`flex items-center space-x-2 py-2.5 px-3.5 font-mono text-xs uppercase tracking-wider transition-all duration-200 flex-shrink-0 border-b-2 -mb-[1px] ${
               activeTab === 'video'
-                ? 'text-foreground font-bold border-b-2 border-foreground'
-                : 'text-muted hover:text-foreground'
+                ? 'text-foreground font-bold border-foreground bg-white/70 shadow-2xs'
+                : 'text-muted hover:text-foreground hover:bg-black/[0.02] border-transparent'
             }`}
           >
             <Video className="w-3.5 h-3.5" />
@@ -576,13 +684,41 @@ export default function ScannerPage() {
               {/* Text / File Area */}
               {!uploadedFile ? (
                 <div className="flex flex-col flex-1 min-h-[300px]">
-                  <textarea
-                    value={pastedText}
-                    onChange={(e) => { setPastedText(e.target.value); setError(''); }}
-                    placeholder="Paste text segment to analyze (minimum 50 words recommended for accurate results)..."
-                    className="flex-1 w-full bg-white border border-border p-5 text-sm font-sans focus:outline-none focus:border-foreground resize-none leading-relaxed shadow-xs"
-                    disabled={analyzing}
-                  />
+                  <div className="flex-1 w-full bg-white border border-border focus-within:border-foreground transition-all duration-200 shadow-xs flex flex-col min-h-[260px]">
+                    <textarea
+                      value={pastedText}
+                      onChange={(e) => { setPastedText(e.target.value); setError(''); }}
+                      placeholder="Paste text passage to analyze (articles, essays, emails, code comments, or dialogue)..."
+                      className="w-full flex-1 p-5 text-sm font-sans focus:outline-none resize-none leading-relaxed bg-transparent"
+                      disabled={analyzing}
+                    />
+                    {/* Textarea Bottom Action Bar */}
+                    <div className="border-t border-border/60 px-4 py-2 bg-[#FAF8F5]/90 flex flex-wrap justify-between items-center gap-2 text-xs font-mono">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="text-[10px] text-muted uppercase tracking-wider">Quick Sample:</span>
+                        <button
+                          type="button"
+                          onClick={() => handleLoadSampleText('ai')}
+                          className="text-[10px] px-2 py-0.5 bg-white border border-border hover:border-foreground/50 hover:bg-[#FDFBF7] text-foreground transition rounded-xs font-medium"
+                        >
+                          AI Generated
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleLoadSampleText('human')}
+                          className="text-[10px] px-2 py-0.5 bg-white border border-border hover:border-foreground/50 hover:bg-[#FDFBF7] text-foreground transition rounded-xs font-medium"
+                        >
+                          Human Written
+                        </button>
+                      </div>
+                      <div className="text-[10px] text-muted">
+                        <span>{wordCount} {wordCount === 1 ? 'word' : 'words'}</span>
+                        {wordCount > 0 && wordCount < 50 && (
+                          <span className="text-amber-700 ml-1.5">(≥50 recommended)</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                   
                   {/* Or drop file */}
                   <div
@@ -591,11 +727,13 @@ export default function ScannerPage() {
                     onDragLeave={handleTextDragLeave}
                     onDrop={handleTextDrop}
                     onClick={() => fileInputRef.current?.click()}
-                    className="mt-4 border border-dashed border-border p-6 text-center cursor-pointer bg-white/40 hover:bg-[#FDFBF7] hover:border-foreground transition duration-150 flex flex-col items-center justify-center space-y-2"
+                    className="mt-4 border border-dashed border-border p-5 text-center cursor-pointer bg-white/60 hover:bg-[#FDFBF7] hover:border-foreground transition duration-150 flex flex-col items-center justify-center space-y-2 group shadow-2xs"
                   >
-                    <Upload className="w-5 h-5 text-muted" />
+                    <div className="p-2.5 rounded-full bg-[#FAF8F5] border border-border/60 group-hover:scale-105 transition-transform">
+                      <Upload className="w-4 h-4 text-muted group-hover:text-foreground transition-colors" />
+                    </div>
                     <p className="text-xs font-mono">
-                      Drag & drop a <span className="underline">.pdf</span>, <span className="underline">.docx</span>, or <span className="underline">.txt</span> file
+                      Drag & drop a <span className="underline font-bold">.pdf</span>, <span className="underline font-bold">.docx</span>, or <span className="underline font-bold">.txt</span> file
                     </p>
                     <p className="text-[10px] text-muted font-mono">
                       or click to explore documents folder
@@ -650,22 +788,42 @@ export default function ScannerPage() {
                   onDragLeave={handleImageDragLeave}
                   onDrop={handleImageDrop}
                   onClick={() => imageInputRef.current?.click()}
-                  className="flex-1 min-h-[300px] border border-dashed border-border bg-white hover:border-foreground transition duration-150 flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer shadow-xs"
+                  className="flex-1 min-h-[310px] border border-dashed border-border bg-white/70 hover:bg-[#FDFBF7] hover:border-foreground transition-all duration-200 flex flex-col items-center justify-center space-y-3.5 p-8 cursor-pointer group shadow-xs relative"
                 >
-                  <div className="p-4 bg-border rounded-full">
-                    <Images className="w-6 h-6 text-muted" />
+                  {/* Concentric aperture ring */}
+                  <div className="relative flex items-center justify-center mb-1">
+                    <div className="w-14 h-14 rounded-full bg-white border border-border/80 shadow-xs flex items-center justify-center ring-8 ring-black/[0.02] group-hover:scale-105 group-hover:border-foreground/40 transition-all duration-300">
+                      <Images className="w-6 h-6 text-foreground/75" />
+                    </div>
                   </div>
                   <div className="text-center space-y-1">
-                    <p className="text-xs font-mono font-bold">
+                    <p className="text-xs font-mono font-bold text-foreground">
                       Upload target verification image(s)
                     </p>
-                    <p className="text-[10px] text-muted font-mono">
-                      Drag and drop single or multiple images here, or click to browse files
+                    <p className="text-[11px] text-muted font-sans max-w-xs">
+                      Drag and drop single or batch images here, or click to browse files
                     </p>
-                    <p className="text-[9px] text-muted font-mono pt-2">
-                      Supports JPG, PNG (Select multiple images for batch scanning)
-                    </p>
+                    <div className="flex items-center justify-center gap-1.5 pt-2">
+                      <span className="text-[9px] font-mono uppercase bg-[#FAF8F5] border border-border/70 px-2 py-0.5 rounded-xs text-muted">JPG • PNG • WebP</span>
+                      <span className="text-[9px] font-mono uppercase bg-[#FAF8F5] border border-border/70 px-2 py-0.5 rounded-xs text-muted">Batch Support</span>
+                    </div>
                   </div>
+
+                  {/* Sample image quick loader button */}
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleLoadSampleImage();
+                      }}
+                      className="inline-flex items-center space-x-1.5 text-[10px] font-mono px-3 py-1.5 bg-white border border-border hover:border-foreground/60 text-foreground transition-all rounded-xs shadow-2xs group-hover:border-foreground/30"
+                    >
+                      <Sparkles className="w-3 h-3 text-amber-600" />
+                      <span>Load Sample Specimen</span>
+                    </button>
+                  </div>
+
                   <input
                     type="file"
                     ref={imageInputRef}
@@ -808,24 +966,28 @@ export default function ScannerPage() {
                   onDragLeave={handleVideoDragLeave}
                   onDrop={handleVideoDrop}
                   onClick={() => !isExtractingFrames && videoInputRef.current?.click()}
-                  className="flex-1 min-h-[300px] border border-dashed border-border bg-white hover:border-foreground transition duration-150 flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer shadow-xs"
+                  className="flex-1 min-h-[310px] border border-dashed border-border bg-white/70 hover:bg-[#FDFBF7] hover:border-foreground transition-all duration-200 flex flex-col items-center justify-center space-y-3.5 p-8 cursor-pointer group shadow-xs relative"
                 >
-                  <div className="p-4 bg-border rounded-full">
-                    <Video className="w-6 h-6 text-muted" />
+                  {/* Concentric optical ring */}
+                  <div className="relative flex items-center justify-center mb-1">
+                    <div className="w-14 h-14 rounded-full bg-white border border-border/80 shadow-xs flex items-center justify-center ring-8 ring-black/[0.02] group-hover:scale-105 group-hover:border-foreground/40 transition-all duration-300">
+                      <Video className="w-6 h-6 text-foreground/75" />
+                    </div>
                   </div>
                   <div className="text-center space-y-1">
-                    <p className="text-xs font-mono font-bold">
+                    <p className="text-xs font-mono font-bold text-foreground">
                       Upload target verification video
                     </p>
-                    <p className="text-[10px] text-muted font-mono">
+                    <p className="text-[11px] text-muted font-sans max-w-xs">
                       Drag and drop MP4, WebM, or MOV video file here, or click to browse
                     </p>
-                    <p className="text-[9px] text-muted font-mono pt-2">
-                      Supports MP4, WebM, QuickTime MOV (extracts temporal keyframes automatically)
-                    </p>
+                    <div className="flex items-center justify-center gap-1.5 pt-2">
+                      <span className="text-[9px] font-mono uppercase bg-[#FAF8F5] border border-border/70 px-2 py-0.5 rounded-xs text-muted">MP4 • WebM • MOV</span>
+                      <span className="text-[9px] font-mono uppercase bg-[#FAF8F5] border border-border/70 px-2 py-0.5 rounded-xs text-muted">Temporal Keyframe Extraction</span>
+                    </div>
                   </div>
                   {isExtractingFrames && (
-                    <div className="flex items-center space-x-2 text-xs font-mono text-muted bg-[#FDFBF7] border border-border px-3 py-1.5 mt-2">
+                    <div className="flex items-center space-x-2 text-xs font-mono text-muted bg-[#FDFBF7] border border-border px-3 py-1.5 mt-2 shadow-2xs">
                       <RefreshCw className="w-3.5 h-3.5 animate-spin text-foreground" />
                       <span>{videoProgress || 'Sampling temporal frames...'}</span>
                     </div>
@@ -933,7 +1095,7 @@ export default function ScannerPage() {
               (activeTab === 'image' && uploadedImages.length === 0) ||
               (activeTab === 'video' && !uploadedVideo)
             }
-            className="w-full bg-foreground text-background font-mono text-xs uppercase tracking-widest py-3 hover:bg-foreground/90 transition duration-150 flex justify-center items-center space-x-2 disabled:bg-border disabled:text-muted disabled:cursor-not-allowed"
+            className="w-full bg-[#1A1A1A] text-[#FDFBF7] font-mono text-xs uppercase tracking-widest py-3.5 px-6 transition duration-200 flex justify-center items-center space-x-2.5 disabled:bg-border/90 disabled:text-muted disabled:cursor-not-allowed btn-premium rounded-xs shadow-xs"
           >
             {isExtractingFrames ? (
               <>
@@ -946,11 +1108,17 @@ export default function ScannerPage() {
                 <span>{analysisProgress}</span>
               </>
             ) : (
-              <span>
-                Analyze authenticity
-                {activeTab === 'image' && uploadedImages.length > 1 ? ` (${uploadedImages.length} photos)` : ''}
-                {activeTab === 'video' && uploadedVideo ? ` (${uploadedVideo.frames.length} keyframes)` : ''}
-              </span>
+              <>
+                <Sparkles className="w-3.5 h-3.5 text-white/90" />
+                <span>
+                  Analyze authenticity
+                  {activeTab === 'image' && uploadedImages.length > 1 ? ` (${uploadedImages.length} photos)` : ''}
+                  {activeTab === 'video' && uploadedVideo ? ` (${uploadedVideo.frames.length} keyframes)` : ''}
+                </span>
+                <span className="hidden sm:inline-flex items-center text-[9px] bg-white/20 border border-white/25 px-1.5 py-0.5 rounded-xs tracking-normal ml-2 font-mono">
+                  ⌘↵
+                </span>
+              </>
             )}
           </button>
 
@@ -964,7 +1132,7 @@ export default function ScannerPage() {
       </div>
 
       {/* Right Column: Asymmetric Results Presentation */}
-      <div className="w-full lg:w-1/2 flex flex-col border border-border p-6 md:p-8 bg-[#FAF8F5] relative shadow-xs">
+      <div className="w-full lg:w-1/2 flex flex-col editorial-card corner-ticks p-6 md:p-8 relative shadow-sm">
         
         {/* Results view header */}
         <div className="border-b border-border pb-4 mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
@@ -1028,15 +1196,50 @@ export default function ScannerPage() {
 
         {/* Dynamic Inner Panels */}
         {!result && !analyzing && (
-          /* 1. Empty state (Editorial Placeholder) */
-          <div className="flex-1 flex flex-col justify-center items-center text-center p-8 py-20 border border-dashed border-border/80">
-            <div className="w-12 h-12 border border-border flex items-center justify-center font-serif text-lg font-bold bg-white text-muted mb-4 select-none">
-              ?
+          /* 1. Empty state (Editorial Forensic Standby) */
+          <div className="flex-1 flex flex-col justify-center items-center text-center p-6 md:p-8 py-14 border border-dashed border-border/80 bg-white/50 relative overflow-hidden">
+            {/* Precision Optical Reticle Graphic */}
+            <div className="relative mb-5 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full border border-border/70 flex items-center justify-center relative shadow-2xs">
+                <div className="w-14 h-14 rounded-full border border-dashed border-border flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-white border border-border shadow-xs flex items-center justify-center">
+                    <Scan className="w-4 h-4 text-[#1A1A1A]" />
+                  </div>
+                </div>
+                {/* Thin reticle crosshairs */}
+                <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-border/40 pointer-events-none" />
+                <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-border/40 pointer-events-none" />
+              </div>
             </div>
-            <h4 className="font-serif font-bold text-base mb-1">Authenticity report pending</h4>
-            <p className="text-xs text-muted max-w-xs font-sans leading-relaxed">
+
+            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#1A1A1A]/5 border border-[#1A1A1A]/10 text-[9px] font-mono text-muted mb-3 uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Forensic Engine Standby</span>
+            </div>
+
+            <h4 className="font-serif font-bold text-lg text-foreground mb-1 tracking-tight">Authenticity report pending</h4>
+            <p className="text-xs text-muted max-w-sm font-sans leading-relaxed mb-6">
               Scan results, sentence weights, and image generation heatmap coordinates will render here once analysis runs.
             </p>
+
+            {/* 3 Capabilities Preview Cards */}
+            <div className="w-full max-w-md grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-left">
+              <div className="p-3 bg-white border border-border/80 shadow-2xs">
+                <span className="text-[9px] uppercase tracking-wider font-mono text-muted block mb-1">01 / Syntax</span>
+                <p className="text-[11px] font-bold text-foreground leading-tight">Perplexity & Burstiness</p>
+                <p className="text-[9px] text-muted font-mono mt-1">Linguistic distribution analysis</p>
+              </div>
+              <div className="p-3 bg-white border border-border/80 shadow-2xs">
+                <span className="text-[9px] uppercase tracking-wider font-mono text-muted block mb-1">02 / Spatial</span>
+                <p className="text-[11px] font-bold text-foreground leading-tight">Artifact Heatmap</p>
+                <p className="text-[9px] text-muted font-mono mt-1">Latent diffusion fingerprints</p>
+              </div>
+              <div className="p-3 bg-white border border-border/80 shadow-2xs">
+                <span className="text-[9px] uppercase tracking-wider font-mono text-muted block mb-1">03 / Temporal</span>
+                <p className="text-[11px] font-bold text-foreground leading-tight">Frame Cadence</p>
+                <p className="text-[9px] text-muted font-mono mt-1">Consistency across video strip</p>
+              </div>
+            </div>
           </div>
         )}
 

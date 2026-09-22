@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.loginContainer {
+	min-height: 100vh;
+	width: 100%;
+	font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	background-image: url('/loginpage.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	overflow-x: hidden;
+	color: #1e293b;
+	padding: 40px 16px;
+}
+
+.loginWrapper {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+}
+
+.loginCard {
+	width: 100%;
+	max-width: 440px;
+	background: rgba(255, 255, 255, 0.10);
+	backdrop-filter: blur(12px) saturate(150%);
+	-webkit-backdrop-filter: blur(12px) saturate(150%);
+	border: 1.5px solid rgba(255, 255, 255, 0.35);
+	box-shadow: 
+		0 20px 45px -10px rgba(15, 23, 42, 0.16),
+		0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+	border-radius: 28px;
+	padding: 44px 40px 40px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.loginCard:hover {
+	background: rgba(255, 255, 255, 0.14);
+	box-shadow: 
+		0 25px 50px -10px rgba(15, 23, 42, 0.22),
+		0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.cardTitle {
+	text-align: center;
+	margin: 0 0 32px;
+	font-size: 26px;
+	font-weight: 700;
+	color: #1e293b;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+.formField {
+	position: relative;
+	width: 100%;
+	margin-bottom: 28px;
+	background: rgba(255, 255, 255, 0.32);
+	backdrop-filter: blur(16px) saturate(160%);
+	-webkit-backdrop-filter: blur(16px) saturate(160%);
+	border-radius: 8px 8px 0 0;
+	padding: 0 12px;
+	border-bottom: 2px solid rgba(0, 0, 0, 0.7);
+	transition: all 0.3s ease;
+	box-sizing: border-box;
+}
+
+.formField:hover {
+	background: rgba(255, 255, 255, 0.42);
+}
+
+.formField.active {
+	background: rgba(255, 255, 255, 0.48);
+	border-bottom-color: #000000;
+}
+
+.formField label {
+	position: absolute;
+	left: 12px;
+	top: 10px;
+	font-size: 15px;
+	font-weight: 600;
+	color: #000000;
+	pointer-events: none;
+	transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+	text-shadow: 0 1px 4px rgba(255, 255, 255, 0.6);
+}
+
+.input {
+	width: 100%;
+	height: 42px;
+	background-color: transparent;
+	border: none;
+	font-size: 15.5px;
+	font-family: inherit;
+	font-weight: 600;
+	color: #000000;
+	padding: 8px 30px 8px 0;
+	box-sizing: border-box;
+	outline: none;
+}
+
+.formField.active label,
+.formField:has(input:focus) label,
+.formField:has(input:-webkit-autofill) label,
+.formField:has(input:not(:placeholder-shown)) label {
+	top: -18px;
+	left: 2px;
+	font-size: 12.5px;
+	font-weight: 700;
+	color: #000000;
+	text-shadow: 0 1px 6px rgba(255, 255, 255, 0.85);
+}
+
+.borderLine {
+	position: absolute;
+	left: 0;
+	bottom: -2px;
+	width: 0;
+	height: 2.5px;
+	background: #000000;
+	transition: width 0.35s ease;
+}
+
+.formField.active .borderLine,
+.formField:has(input:focus) .borderLine {
+	width: 100%;
+}
+
+.fieldIcon {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 22px;
+	height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #000000;
+	background: none;
+	border: none;
+	padding: 0;
+	transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.fieldIcon svg {
+	width: 19px;
+	height: 19px;
+	stroke-width: 2.2;
+}
+
+.togglePassword {
+	cursor: pointer;
+}
+
+.togglePassword:hover {
+	color: #000000;
+	transform: scale(1.12);
+}
+
+.forgotWrapper {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: -18px;
+	margin-bottom: 22px;
+}
+
+.forgotLink {
+	font-size: 13px;
+	color: #000000;
+	text-decoration: none;
+	font-weight: 600;
+	text-shadow: 0 1px 4px rgba(255, 255, 255, 0.7);
+	transition: color 0.2s ease;
+}
+
+.forgotLink strong {
+	font-weight: 800;
+	color: #000000;
+}
+
+.forgotLink:hover {
+	color: #1e3a8a;
+	text-decoration: underline;
+}
+
+.rememberWrapper {
+	display: flex;
+	align-items: center;
+	margin-bottom: 26px;
+}
+
+.checkboxLabel {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.checkboxInput {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+.checkboxCustom {
+	width: 20px;
+	height: 20px;
+	border-radius: 6px;
+	background: rgba(255, 255, 255, 0.85);
+	border: 1.5px solid rgba(0, 0, 0, 0.65);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.25s ease;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.checkboxLabel:hover .checkboxCustom {
+	background: #ffffff;
+	border-color: #000000;
+}
+
+.checkSvg {
+	opacity: 0;
+	transform: scale(0.4);
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	color: #000000;
+}
+
+.checkboxInput:checked + .checkboxCustom {
+	background: #000000;
+	border-color: #000000;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.checkboxInput:checked + .checkboxCustom .checkSvg {
+	opacity: 1;
+	transform: scale(1);
+	color: #ffffff;
+}
+
+.checkboxText {
+	font-size: 14px;
+	font-weight: 600;
+	color: #000000;
+	text-shadow: 0 1px 4px rgba(255, 255, 255, 0.7);
+}
+
+.btnLogin {
+	width: 100%;
+	height: 46px;
+	border: none;
+	border-radius: 12px;
+	background: linear-gradient(180deg, #628ec7 0%, #3e6ea6 50%, #2c588e 100%);
+	color: #ffffff;
+	font-size: 15.5px;
+	font-weight: 600;
+	font-family: inherit;
+	cursor: pointer;
+	box-shadow: 
+		0 8px 20px -3px rgba(44, 88, 142, 0.45),
+		0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+	transition: all 0.25s ease;
+}
+
+.btnLogin:hover {
+	filter: brightness(1.08);
+	transform: translateY(-2px);
+	box-shadow: 
+		0 12px 24px -3px rgba(44, 88, 142, 0.55),
+		0 0 0 1px rgba(255, 255, 255, 0.3) inset;
+}
+
+.btnLogin:active {
+	transform: translateY(0);
+	filter: brightness(0.96);
+}
+
+.registerFooter {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 24px;
+	font-size: 13.5px;
+}
+
+.noAccount {
+	color: #334155;
+	font-weight: 500;
+}
+
+.registerLink {
+	color: #1e293b;
+	font-weight: 700;
+	text-decoration: none;
+	font-size: 14px;
+	transition: all 0.2s ease;
+}
+
+.registerLink:hover {
+	color: #0f172a;
+	text-decoration: underline;
+	transform: translateX(1px);
+}
+
+@media (max-width: 768px) {
+	.loginWrapper {
+		padding: 20px 16px;
+	}
+
+	.loginCard {
+		padding: 36px 28px 32px;
+		border-radius: 24px;
+	}
+
+	.cardTitle {
+		font-size: 24px;
+		margin-bottom: 28px;
+	}
+}
+
+@media (max-width: 480px) {
+	.loginCard {
+		padding: 30px 20px 28px;
+	}
+
+	.registerFooter {
+		font-size: 12.5px;
+	}
+
+	.registerLink {
+		font-size: 13px;
+	}
+}
