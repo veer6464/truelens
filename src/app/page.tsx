@@ -620,7 +620,7 @@ export default function ScannerPage() {
         {/* Header Summary */}
         <div className="border-b border-border pb-6">
           <div className="flex items-center space-x-2 mb-2">
-            <span className="inline-flex items-center space-x-1.5 text-[9px] uppercase tracking-[0.2em] text-[#1A1A1A] font-mono font-bold bg-[#1A1A1A]/5 border border-[#1A1A1A]/10 px-2 py-0.5 rounded-xs">
+            <span className="inline-flex items-center space-x-1.5 text-[9px] uppercase tracking-[0.2em] text-[#1A1A1A] font-mono font-bold bg-[#1A1A1A]/5 border border-[#1A1A1A]/20 px-2 py-0.5 rounded-xs">
               <ShieldCheck className="w-3 h-3 text-[#1A1A1A]" />
               <span>Authentication Suite</span>
             </span>
@@ -630,18 +630,18 @@ export default function ScannerPage() {
           <p className="text-xs text-muted leading-relaxed font-sans max-w-lg">
             Verify content transparency. Paste text passages, drop documents, or upload photos to inspect for structural generation signatures.
           </p>
-          <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-border/50 text-[10px] font-mono text-muted">
+          <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-border text-[10px] font-mono text-muted">
             <span className="text-[9px] uppercase tracking-wider text-muted/70">Coverage:</span>
-            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">GPT-4o</span>
-            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">Claude 3.5</span>
-            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">Midjourney v6</span>
-            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">Flux.1</span>
-            <span className="bg-white/80 border border-border/80 px-1.5 py-0.5 rounded-xs">Sora</span>
+            <span className="bg-white border border-border px-1.5 py-0.5 rounded-xs">GPT-4o</span>
+            <span className="bg-white border border-border px-1.5 py-0.5 rounded-xs">Claude 3.5</span>
+            <span className="bg-white border border-border px-1.5 py-0.5 rounded-xs">Midjourney v6</span>
+            <span className="bg-white border border-border px-1.5 py-0.5 rounded-xs">Flux.1</span>
+            <span className="bg-white border border-border px-1.5 py-0.5 rounded-xs">Sora</span>
           </div>
         </div>
 
         {/* Tab Selector */}
-        <div className="flex space-x-1 border-b border-border/80 pb-0 overflow-x-auto">
+        <div className="flex space-x-1 border-b border-border pb-0 overflow-x-auto">
           <button
             onClick={() => { setActiveTab('text'); setError(''); }}
             className={`flex items-center space-x-2 py-2.5 px-3.5 font-mono text-xs uppercase tracking-wider transition-all duration-200 flex-shrink-0 border-b-2 -mb-[1px] ${
@@ -970,7 +970,7 @@ export default function ScannerPage() {
                 >
                   {/* Concentric optical ring */}
                   <div className="relative flex items-center justify-center mb-1">
-                    <div className="w-14 h-14 rounded-full bg-white border border-border/80 shadow-xs flex items-center justify-center ring-8 ring-black/[0.02] group-hover:scale-105 group-hover:border-foreground/40 transition-all duration-300">
+                    <div className="w-14 h-14 rounded-full bg-white border border-border shadow-xs flex items-center justify-center ring-8 ring-black/[0.02] group-hover:scale-105 group-hover:border-foreground/40 transition-all duration-300">
                       <Video className="w-6 h-6 text-foreground/75" />
                     </div>
                   </div>
@@ -982,8 +982,8 @@ export default function ScannerPage() {
                       Drag and drop MP4, WebM, or MOV video file here, or click to browse
                     </p>
                     <div className="flex items-center justify-center gap-1.5 pt-2">
-                      <span className="text-[9px] font-mono uppercase bg-[#FAF8F5] border border-border/70 px-2 py-0.5 rounded-xs text-muted">MP4 • WebM • MOV</span>
-                      <span className="text-[9px] font-mono uppercase bg-[#FAF8F5] border border-border/70 px-2 py-0.5 rounded-xs text-muted">Temporal Keyframe Extraction</span>
+                      <span className="text-[9px] font-mono uppercase bg-[#FAF8F5] border border-border px-2 py-0.5 rounded-xs text-muted">MP4 • WebM • MOV</span>
+                      <span className="text-[9px] font-mono uppercase bg-[#FAF8F5] border border-border px-2 py-0.5 rounded-xs text-muted">Temporal Keyframe Extraction</span>
                     </div>
                   </div>
                   {isExtractingFrames && (
@@ -1197,22 +1197,22 @@ export default function ScannerPage() {
         {/* Dynamic Inner Panels */}
         {!result && !analyzing && (
           /* 1. Empty state (Editorial Forensic Standby) */
-          <div className="flex-1 flex flex-col justify-center items-center text-center p-6 md:p-8 py-14 border border-dashed border-border/80 bg-white/50 relative overflow-hidden">
+          <div className="flex-1 flex flex-col justify-center items-center text-center p-6 md:p-8 py-14 border border-dashed border-border bg-white/50 relative overflow-hidden">
             {/* Precision Optical Reticle Graphic */}
             <div className="relative mb-5 flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full border border-border/70 flex items-center justify-center relative shadow-2xs">
+              <div className="w-20 h-20 rounded-full border border-border flex items-center justify-center relative shadow-2xs">
                 <div className="w-14 h-14 rounded-full border border-dashed border-border flex items-center justify-center">
                   <div className="w-8 h-8 rounded-full bg-white border border-border shadow-xs flex items-center justify-center">
                     <Scan className="w-4 h-4 text-[#1A1A1A]" />
                   </div>
                 </div>
                 {/* Thin reticle crosshairs */}
-                <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-border/40 pointer-events-none" />
-                <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-border/40 pointer-events-none" />
+                <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-border/60 pointer-events-none" />
+                <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-border/60 pointer-events-none" />
               </div>
             </div>
 
-            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#1A1A1A]/5 border border-[#1A1A1A]/10 text-[9px] font-mono text-muted mb-3 uppercase tracking-wider">
+            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#1A1A1A]/5 border border-[#1A1A1A]/20 text-[9px] font-mono text-muted mb-3 uppercase tracking-wider">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>Forensic Engine Standby</span>
             </div>
@@ -1224,17 +1224,17 @@ export default function ScannerPage() {
 
             {/* 3 Capabilities Preview Cards */}
             <div className="w-full max-w-md grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-left">
-              <div className="p-3 bg-white border border-border/80 shadow-2xs">
+              <div className="p-3 bg-white border border-border shadow-2xs">
                 <span className="text-[9px] uppercase tracking-wider font-mono text-muted block mb-1">01 / Syntax</span>
                 <p className="text-[11px] font-bold text-foreground leading-tight">Perplexity & Burstiness</p>
                 <p className="text-[9px] text-muted font-mono mt-1">Linguistic distribution analysis</p>
               </div>
-              <div className="p-3 bg-white border border-border/80 shadow-2xs">
+              <div className="p-3 bg-white border border-border shadow-2xs">
                 <span className="text-[9px] uppercase tracking-wider font-mono text-muted block mb-1">02 / Spatial</span>
                 <p className="text-[11px] font-bold text-foreground leading-tight">Artifact Heatmap</p>
                 <p className="text-[9px] text-muted font-mono mt-1">Latent diffusion fingerprints</p>
               </div>
-              <div className="p-3 bg-white border border-border/80 shadow-2xs">
+              <div className="p-3 bg-white border border-border shadow-2xs">
                 <span className="text-[9px] uppercase tracking-wider font-mono text-muted block mb-1">03 / Temporal</span>
                 <p className="text-[11px] font-bold text-foreground leading-tight">Frame Cadence</p>
                 <p className="text-[9px] text-muted font-mono mt-1">Consistency across video strip</p>

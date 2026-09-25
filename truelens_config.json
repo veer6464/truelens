@@ -1,4 +1,4 @@
 {
   "textEngine": "local",
-  "imageEngine": "api"
+  "imageEngine": "local"
 }

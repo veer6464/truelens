@@ -12,7 +12,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className="border-t border-[#E2DDD5]/80 py-5 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-muted mt-auto bg-white/40">
+    <footer className="border-t border-border py-5 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-muted mt-auto bg-white/40">
       <div className="flex items-center space-x-2">
         <span>&copy; {new Date().getFullYear()} TrueLens Inc.</span>
         <span>•</span>

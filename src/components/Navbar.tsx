@@ -19,7 +19,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="border-b border-[#E2DDD5]/80 py-3.5 px-6 md:px-12 flex justify-between items-center bg-background/85 backdrop-blur-md sticky top-0 z-50 transition-all">
+    <header className="border-b border-border py-3.5 px-6 md:px-12 flex justify-between items-center bg-background/85 backdrop-blur-md sticky top-0 z-50 transition-all">
       <div className="flex items-center space-x-3">
         {/* Precision Optical Lens Mark */}
         <a href="/" className="flex items-center space-x-2.5 group">

@@ -31,3 +31,4 @@ export async function parseDocument(buffer: Buffer, mimeType: string): Promise<s
     throw new Error(`Failed to parse document: ${error.message || 'unknown error'}`);
   }
 }
+

@@ -177,7 +177,16 @@ export class ApiDetectionEngine implements DetectionEngine {
     });
 
     if (!response.ok) {
-      throw new Error(`Sightengine API responded with status ${response.status}`);
+      let errorDetail = `status ${response.status}`;
+      try {
+        const errorData = await response.json();
+        if (errorData?.error?.message) {
+          errorDetail = `${errorData.error.message} (status ${response.status})`;
+        }
+      } catch {
+        // fallback to status
+      }
+      throw new Error(`Sightengine API: ${errorDetail}`);
     }
 
     const data = await response.json();
